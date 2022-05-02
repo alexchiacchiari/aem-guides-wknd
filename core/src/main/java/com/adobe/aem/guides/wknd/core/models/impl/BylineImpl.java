@@ -1,18 +1,19 @@
 package com.adobe.aem.guides.wknd.core.models.impl;
 import com.adobe.cq.wcm.core.components.models.Image;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import com.adobe.aem.guides.wknd.core.models.Byline;
-import com.adobe.cq.wcm.core.components.models.Image;
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
+import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.apache.sling.models.factory.ModelFactory;
+
+import javax.annotation.PostConstruct;
 
 
 @Model(
@@ -22,7 +23,10 @@ import org.apache.sling.models.factory.ModelFactory;
         defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL
 )
 public class BylineImpl implements Byline {
-    protected static final String RESOURCE_TYPE = "wknd/components/content/byline";
+    protected static final String RESOURCE_TYPE = "wknd/components/byline";
+
+    @Self
+    private SlingHttpServletRequest request;
 
     @ValueMapValue
     private String name;
@@ -31,7 +35,14 @@ public class BylineImpl implements Byline {
     private List<String> occupations;
 
     @OSGiService
-    private ModelFactory 
+    private ModelFactory modelFactory;
+
+    private Image image;
+
+    @PostConstruct
+    private void init() {
+        image = modelFactory.getModelFromWrappedRequest(request, request.getResource(), Image.class);
+    }
 
     @Override
     public String getName() {
@@ -50,11 +61,13 @@ public class BylineImpl implements Byline {
 
     @Override
     public boolean isEmpty() {
+        final Image componentImage = getImage();
+
         if (StringUtils.isBlank(name)) {
             return true;
         } else if (occupations == null || occupations.isEmpty()) {
             return true;
-        } else if ( /* image is null, logic to be determined */) {
+        } else if (componentImage == null || StringUtils.isBlank(componentImage.getSrc())) {
             return true;
         } else {
             return false;
@@ -64,13 +77,6 @@ public class BylineImpl implements Byline {
 
 
     private Image getImage() {
-        Image image = null;
-        assert false;
-        if (image.getFileReference() == null) {
-            return null;
-        } else {
         return image;
         }
-    }
-
 }

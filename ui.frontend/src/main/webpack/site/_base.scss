@@ -1,5 +1,5 @@
 body {
-    background-color: $body-bg;
+    background-color: #fff;
     font-family: $font-family-base;
     margin: 0;
     padding: 0;
@@ -29,7 +29,7 @@ body {
         font-family: $font-family-serif;
         font-weight: $font-weight-normal;
         margin-top: $line-height-computed;
-        margin-bottom: ($line-height-computed / 2);
+        margin-bottom: calc($line-height-computed / 2);
     }
 
     h4, .h4,
@@ -60,7 +60,7 @@ body {
     // -------------------------
 
     p {
-        margin: 0 0 ($line-height-computed / 2);
+        margin: 0 0 calc($line-height-computed / 2);
         font-size: $font-size-paragraph;
         line-height: $line-height-base + .5;
         text-align: justify;

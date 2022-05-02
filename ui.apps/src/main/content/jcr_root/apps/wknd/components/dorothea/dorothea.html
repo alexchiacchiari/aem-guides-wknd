@@ -1,0 +1,21 @@
+<div data-sly-use.dorothea="com.adobe.aem.guides.wknd.core.models.Dorothea"
+     data-sly-use.placeholderTemplate="core/wcm/components/commons/v1/templates.html"
+     data-sly-test.hasContent="${!dorothea.childrenempty || !dorothea.websitesempty}"
+     data-sly-use.rootPage="${currentPage.path}">
+    <ul>
+        <li>${dorothea.paths}</li>
+    </ul>
+    <ul>
+        <li>${dorothea.websites}</li>
+    </ul>
+    <p>il nome è ${currentPage.name}, il path ${rootPage.path}</p>
+    <ul data-sly-list=${rootPage.listChildren}> childs:
+        <li>
+            ${item.name}
+        </li>
+    </ul>
+    <p data-sly-use.jcrContent="${rootPage.path}/jcr:content">
+    Social media: ${jcrContent.socialMedia}
+    </p>
+</div>
+<sly data-sly-call=" ${placeholderTemplate.placeholder @ isEmpty=!hasContent} "></sly>
